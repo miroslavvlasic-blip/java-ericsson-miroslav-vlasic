@@ -8,15 +8,29 @@ import java.util.List;
 @RequestMapping("/nodes")
 public class NodeController {
 
-    private final NodeRepository repository = new NodeRepository();
+    private final NodeService service;
+
+    public NodeController(NodeService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<Node> getAllNodes() {
-        return repository.findAll();
+        return service.getAllNodes();
     }
 
     @GetMapping("/{id}")
     public Node getNodeById(@PathVariable Long id) {
-        return repository.findById(id);
+        return service.getNodeById(id);
+    }
+
+    @PostMapping
+    public Node addNode(@RequestBody Node node) {
+        return service.addNode(node);
+    }
+
+    @GetMapping("/vendor/{vendor}")
+    public List<Node> getNodesByVendor(@PathVariable String vendor) {
+        return service.getNodesByVendor(vendor);
     }
 }
